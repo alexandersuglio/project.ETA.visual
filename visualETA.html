@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <p>enter start date </p>
+  <input type="date"> 
+  <input id="addit">
+  
+  
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+  
+  google.charts.load("current", {packages:["timeline"]});
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var container = document.getElementById('example2.1');
+    var chart = new google.visualization.Timeline(container);
+    var dataTable = new google.visualization.DataTable();
+
+    dataTable.addColumn({ type: 'string', id: 'Term' });
+    dataTable.addColumn({ type: 'string', id: 'Name' });
+   dataTable.addColumn({ type: 'date', id: 'Start' });
+    dataTable.addColumn({ type: 'date', id: 'End' });
+
+   var add = 45;
+   // $('#addit').val();
+   var beg = new Date();
+    var end = new Date();
+    
+    end.setDate(end.getDate() + add); 
+
+    dataTable.addRows([
+      [ '1', 'Planning', beg, end ]
+    //  [ '2', 'Implementation', new Date(1990, 2, 4),  new Date(2000, 2, 4) ]
+   //   [ '3', 'QA',  new Date(2002, 2, 4),  new Date(2005, 2, 4) ],
+       //[ '3', 'ruby',  new Date(2006, 2, 4),  new Date(2010, 2, 4) ]
+    ]);
+
+    chart.draw(dataTable);
+  }
+</script>
+
+<div id="example2.1" style="height: 200px;"></div>
+</body>
+</html>
+
+
+
