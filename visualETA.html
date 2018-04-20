@@ -8,15 +8,32 @@
 <body>
   
   <p>enter start date </p>
-  <input type="date"> 
+<input type="date" id="date-input" required />
+<button id="submit">Submit</button>
   <input id="addit">
   
   
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
 
 <script type="text/javascript">
   
-  google.charts.load("current", {packages:["timeline"]});
+  
+  
+  $('#submit').on('click', function(){
+  var date = new Date($('#date-input').val());
+  day = date.getDate() + 1;
+  month = date.getMonth();
+  year = date.getFullYear();
+ // alert([day, month, year].join('/'));
+    
+    var beg= new Date(year, month, day);
+    
+    google.charts.load("current", {packages:["timeline"]});
   google.charts.setOnLoadCallback(drawChart);
   function drawChart() {
     var container = document.getElementById('example2.1');
@@ -29,14 +46,11 @@
     dataTable.addColumn({ type: 'date', id: 'End' });
 
    var add = 45;
-   // $('#addit').val();
-   var beg = new Date();
-    var end = new Date();
-    
-    end.setDate(end.getDate() + add); 
-
+   
+   var end = new Date(beg.getTime()+(7*24*60*60*1000));   
+        
     dataTable.addRows([
-      [ '1', 'Planning', beg, end ]
+      [ '1', 'total', beg, end ]
     //  [ '2', 'Implementation', new Date(1990, 2, 4),  new Date(2000, 2, 4) ]
    //   [ '3', 'QA',  new Date(2002, 2, 4),  new Date(2005, 2, 4) ],
        //[ '3', 'ruby',  new Date(2006, 2, 4),  new Date(2010, 2, 4) ]
@@ -44,6 +58,8 @@
 
     chart.draw(dataTable);
   }
+    
+});
 </script>
 
 <div id="example2.1" style="height: 200px;"></div>
