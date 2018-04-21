@@ -7,17 +7,16 @@
 </head>
 <body>
   
-  <p>enter start date </p>
+  <p>enter project start date </p>
 <input type="date" id="date-input" required />
-<button id="submit">Submit</button>
+<button id="submit">Calculate Workflow</button>
  <select id="timeSelect">
   <option id="days45">45 days</option>
   <option id="days60">60 days</option>
   <option id="days90">90 days</option>
 </select>
   
-    <div id="totalHere">
-    hey
+  <div id="totalHere">
   </div>
   
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -35,20 +34,20 @@ document.getElementById('days45').setAttribute('value', values[0]);
 document.getElementById('days60').setAttribute('value', values[1]);
 document.getElementById('days90').setAttribute('value', values[2]);
   
-$('#timeSelect').change(function(){
-var marker = $("#timeSelect option:selected").attr("value"); 
-$("#totalHere").text( marker); 
- // });
-   
-  $('#submit').on('click', function(){
- 
-   
+$('#submit').on('click', function(){
+  var marker = $("#timeSelect option:selected").attr("value"); 
+
   var date = new Date($('#date-input').val());
-  day = date.getDate() + 1;
-  month = date.getMonth();
-  year = date.getFullYear();
-    
+  var day = date.getDate() + 1;
+  var month = date.getMonth();
+  var year = date.getFullYear();
+
+  //var day3 = date.getDate() + day;
+
   var beg= new Date(year, month, day);
+
+  //var beg3= new Date(year, month, day3);
+
     
   google.charts.load("current", {packages:["timeline"]});
   google.charts.setOnLoadCallback(drawChart);
@@ -56,51 +55,42 @@ $("#totalHere").text( marker);
     var container = document.getElementById('example2.1');
     var chart = new google.visualization.Timeline(container);
     var dataTable = new google.visualization.DataTable();
- 
- //var values = [45, 60, 90];
-// var marker = $("#timeSelect option:selected").val(); 
-//var marker= values[0];
- 
-var end = new Date(beg.getTime()+(marker*24*60*60*1000)); 
+
+    var marker2 = marker/3;
+    var end = new Date(beg.getTime()+(marker*24*60*60*1000)); 
+    var end2 = new Date(beg.getTime()+(marker2*24*60*60*1000)); 
+
+    var end3 = new Date(beg.getTime()+((marker2/2)*24*60*60*1000)); 
+
     
     
-    dataTable.addColumn({ type: 'string', id: 'Term' });
-    dataTable.addColumn({ type: 'string', id: 'Name' });
+   dataTable.addColumn({ type: 'string', id: 'Term' });
+   dataTable.addColumn({ type: 'string', id: 'Name' });
    dataTable.addColumn({ type: 'date', id: 'Start' });
-    dataTable.addColumn({ type: 'date', id: 'End' });
-     dataTable.addRows([
-      [ '1', 'total', beg, end ]
+   dataTable.addColumn({ type: 'date', id: 'End' });
+   dataTable.addRows([
+      [ '1','total', beg, end ],
+           [ '2','R&D', beg, end2 ],
+      [ '3','implementation', end2, end ],
+         [ '4','Q/A', end3, end ]
+
  
     ]);
 
     chart.draw(dataTable);
-  }    
-  });
-  
+  }
+
+/*
+$('#timeSelect').change(function(){
+var marker = $("#timeSelect option:selected").attr("value");  
+//$('#submit').on('click', function(){
+});
+*/
     });
-  
-  
-  
- //  var values = [45, 60, 90];
-
-  /*
-  $('#timeSelect').change(function(){
-var idk = $("#timeSelect option:selected").val(); 
-
-$("#totalHere").text( idk); 
-  
-document.getElementById('days45').setAttribute('value', values[0]);
-document.getElementById('days60').setAttribute('value', values[1]);
-document.getElementById('days90').setAttribute('value', values[2]);
-  
-  });
-   */
-  
-
 
 </script>
 
-<div id="example2.1" style="height: 200px;"></div>
+<div id="example2.1" style="height: 400px;"></div>
 </body>
 </html>
 
