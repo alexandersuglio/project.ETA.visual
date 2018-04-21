@@ -6,8 +6,8 @@
   <title>Document</title>
 </head>
 <body>
-  
-  <p>enter project start date </p>
+  <link href="https://fonts.googleapis.com/css?family=Yantramanav" rel="stylesheet">
+  <p>Enter project start date </p>
 <input type="date" id="date-input" required />
 <button id="submit">Calculate Workflow</button>
  <select id="timeSelect">
@@ -17,6 +17,10 @@
 </select>
   
   <div id="totalHere">
+  </div>
+
+   <div id="statsHere">
+
   </div>
   
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -63,21 +67,26 @@ $('#submit').on('click', function(){
     var end3 = new Date(beg.getTime()+((marker2/2)*24*60*60*1000)); 
 
     
-    
    dataTable.addColumn({ type: 'string', id: 'Term' });
    dataTable.addColumn({ type: 'string', id: 'Name' });
    dataTable.addColumn({ type: 'date', id: 'Start' });
    dataTable.addColumn({ type: 'date', id: 'End' });
    dataTable.addRows([
-      [ '1','total', beg, end ],
-           [ '2','R&D', beg, end2 ],
-      [ '3','implementation', end2, end ],
-         [ '4','Q/A', end3, end ]
-
- 
+      [ '1','Total', beg, end ],
+      [ '2','R&D', beg, end2 ],
+      [ '3','Implementation', end2, end ],
+      [ '4','Q/A', end3, end ]
     ]);
 
-    chart.draw(dataTable);
+ var options = {
+      timeline: { showRowLabels: false }
+    };
+
+
+    chart.draw(dataTable, options);
+
+    $('#statsHere').html("<p> Project Begins </p> " + beg.toDateString() + "</br> <p> Project Ends </br></br>" + end.toDateString() + "</p>");
+
   }
 
 /*
@@ -86,10 +95,15 @@ var marker = $("#timeSelect option:selected").attr("value");
 //$('#submit').on('click', function(){
 });
 */
+
     });
 
 </script>
 
+<style type="text/css">
+  * {
+font-family: 'Yantramanav', sans-serif;  }
+</style>
 <div id="example2.1" style="height: 400px;"></div>
 </body>
 </html>
