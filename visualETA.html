@@ -10,8 +10,15 @@
   <p>enter start date </p>
 <input type="date" id="date-input" required />
 <button id="submit">Submit</button>
-  <input id="addit">
+ <select id="timeSelect">
+  <option id="days45">45 days</option>
+  <option id="days60">60 days</option>
+  <option id="days90">90 days</option>
+</select>
   
+    <div id="totalHere">
+    hey
+  </div>
   
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   
@@ -21,45 +28,76 @@
   crossorigin="anonymous"></script>
 
 <script type="text/javascript">
+    
+   var values = [45, 60, 90];
+
+document.getElementById('days45').setAttribute('value', values[0]);
+document.getElementById('days60').setAttribute('value', values[1]);
+document.getElementById('days90').setAttribute('value', values[2]);
   
-  
-  
+$('#timeSelect').change(function(){
+var marker = $("#timeSelect option:selected").attr("value"); 
+$("#totalHere").text( marker); 
+ // });
+   
   $('#submit').on('click', function(){
+ 
+   
   var date = new Date($('#date-input').val());
   day = date.getDate() + 1;
   month = date.getMonth();
   year = date.getFullYear();
- // alert([day, month, year].join('/'));
     
-    var beg= new Date(year, month, day);
+  var beg= new Date(year, month, day);
     
-    google.charts.load("current", {packages:["timeline"]});
+  google.charts.load("current", {packages:["timeline"]});
   google.charts.setOnLoadCallback(drawChart);
   function drawChart() {
     var container = document.getElementById('example2.1');
     var chart = new google.visualization.Timeline(container);
     var dataTable = new google.visualization.DataTable();
-
+ 
+ //var values = [45, 60, 90];
+// var marker = $("#timeSelect option:selected").val(); 
+//var marker= values[0];
+ 
+var end = new Date(beg.getTime()+(marker*24*60*60*1000)); 
+    
+    
     dataTable.addColumn({ type: 'string', id: 'Term' });
     dataTable.addColumn({ type: 'string', id: 'Name' });
    dataTable.addColumn({ type: 'date', id: 'Start' });
     dataTable.addColumn({ type: 'date', id: 'End' });
-
-   var add = 45;
-   
-   var end = new Date(beg.getTime()+(7*24*60*60*1000));   
-        
-    dataTable.addRows([
+     dataTable.addRows([
       [ '1', 'total', beg, end ]
-    //  [ '2', 'Implementation', new Date(1990, 2, 4),  new Date(2000, 2, 4) ]
-   //   [ '3', 'QA',  new Date(2002, 2, 4),  new Date(2005, 2, 4) ],
-       //[ '3', 'ruby',  new Date(2006, 2, 4),  new Date(2010, 2, 4) ]
+ 
     ]);
 
     chart.draw(dataTable);
-  }
-    
-});
+  }    
+  });
+  
+    });
+  
+  
+  
+ //  var values = [45, 60, 90];
+
+  /*
+  $('#timeSelect').change(function(){
+var idk = $("#timeSelect option:selected").val(); 
+
+$("#totalHere").text( idk); 
+  
+document.getElementById('days45').setAttribute('value', values[0]);
+document.getElementById('days60').setAttribute('value', values[1]);
+document.getElementById('days90').setAttribute('value', values[2]);
+  
+  });
+   */
+  
+
+
 </script>
 
 <div id="example2.1" style="height: 200px;"></div>
